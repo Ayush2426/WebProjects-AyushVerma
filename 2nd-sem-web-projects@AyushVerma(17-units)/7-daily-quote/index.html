@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote of the day - Ayush Verma</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+ <div class="quote-box">
+    <h2>Quote of the day</h2>
+    <blockquote id="quote">Loading...</blockquote>
+    <span id="author">Loading...</span>
+    <div>
+        <button onclick="getquote(api_url)">New Quote</button>
+        <button onclick="tweet()"><img src="twitter.png">Tweet</button>
+    </div>
+ </div>
+
+<script>
+const quote = document.getElementById("quote");
+const author = document.getElementById("author");
+
+const api_url = "https://api.api-ninjas.com/v1/quotes";
+const api_key = "d2cbG/NVXOVgIUz94HMy+w==ChDcaTitiw5wjGzE";
+
+async function getquote() {
+    try {
+        const response = await fetch(api_url, {
+            method: "GET",
+            headers: {
+                'X-Api-Key': api_key
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch quote");
+        }
+
+        const data = await response.json();
+        quote.innerHTML = `"${data[0].quote}"`;
+        author.innerHTML = `— ${data[0].author}`;
+    } catch (error) {
+        quote.innerHTML = "Could not load quote.";
+        author.innerHTML = "";
+        console.error("Error:", error);
+    }
+}
+
+getquote();
+
+function tweet() {
+    const tweetText = `${quote.innerText} ${author.innerText}`;
+    const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+    window.open(tweetUrl, "_blank", "width=600,height=300");
+}
+</script>
+
+<a href="https://www.linkedin.com/in/ayush-verma-a076a7360/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="watch-link">Author - Ayush Verma</a>
+</body>
+</html>
